@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createServerClient } from "@supabase/ssr";
+import { getSupabaseEnv } from "@/lib/supabase/config";
 
 /**
  * OAuth / magic-link callback. Session cookies must be set on the same
@@ -7,10 +8,14 @@ import { createServerClient } from "@supabase/ssr";
  * often fails on Vercel (session never sticks, infinite login loop).
  */
 export async function GET(request: NextRequest) {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!url?.trim() || !anon?.trim()) {
-    return NextResponse.json({ error: "Supabase is not configured." }, { status: 500 });
+  let url: string;
+  let anon: string;
+  try {
+    const env = getSupabaseEnv();
+    url = env.url;
+    anon = env.anonKey;
+  } catch {
+    return NextResponse.json({ error: "Supabase is not configured (missing env vars)." }, { status: 500 });
   }
 
   const requestUrl = new URL(request.url);

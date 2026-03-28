@@ -1,12 +1,9 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { updateSession } from "@/lib/supabase/middleware";
+import { isSupabaseConfigured } from "@/lib/supabase/config";
 
 export async function middleware(request: NextRequest) {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-  // Skip if Supabase isn't configured yet
-  if (!url || !key || url === "your_supabase_project_url") {
+  if (!isSupabaseConfigured()) {
     return NextResponse.next();
   }
 
