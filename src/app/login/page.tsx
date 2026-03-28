@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,13 +13,33 @@ export default function LoginPage() {
   const [sent, setSent] = useState(false);
   const [error, setError] = useState("");
 
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search).get("error");
+    if (q) setError(decodeURIComponent(q));
+  }, []);
+
   async function handleGoogle() {
     setGoogleLoading(true);
-    const supabase = createClient();
-    await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: { redirectTo: `${location.origin}/auth/callback` },
-    });
+    setError("");
+    try {
+      const supabase = createClient();
+      const { data, error: err } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: { redirectTo: `${window.location.origin}/auth/callback` },
+      });
+      if (err) {
+        setError(err.message);
+        setGoogleLoading(false);
+        return;
+      }
+      if (data?.url) {
+        window.location.assign(data.url);
+        return;
+      }
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Could not start Google sign-in.");
+    }
+    setGoogleLoading(false);
   }
 
   async function handleSubmit(e: React.FormEvent) {
