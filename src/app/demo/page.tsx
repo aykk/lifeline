@@ -42,7 +42,7 @@ export default function DemoPage() {
     <div className="min-h-screen bg-white flex flex-col">
       <header className="px-8 py-6 flex items-center justify-between border-b border-zinc-100">
         <Link href="/" className="text-sm font-semibold tracking-tight text-zinc-900">
-          clarify
+          lifeline
         </Link>
         <Link href="/login">
           <Button size="sm" variant="outline">Sign in for full access</Button>

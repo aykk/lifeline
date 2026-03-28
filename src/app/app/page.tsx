@@ -11,11 +11,11 @@ export default async function AppPage() {
     .order("created_at", { ascending: false });
 
   return (
-    <div className="px-8 py-8 max-w-3xl">
-      <div className="flex flex-col gap-1.5 mb-8">
-        <h1 className="text-2xl font-semibold tracking-tight text-zinc-900">Dashboard</h1>
-        <p className="text-sm text-zinc-500">
-          Configure trigger phrases. When heard, the AI will call the number and deliver your message.
+    <div className="px-8 py-8 max-w-2xl">
+      <div className="mb-8">
+        <h1 className="text-xl font-semibold tracking-tight text-zinc-900">Triggers</h1>
+        <p className="text-sm text-zinc-400 mt-1">
+          Each trigger maps a spoken phrase to a phone call. When heard on the Listen page, the AI fires automatically.
         </p>
       </div>
       <RulesManagerClient

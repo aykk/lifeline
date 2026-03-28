@@ -5,6 +5,7 @@ export interface TriggerRule {
   trigger_phrase: string;
   phone_number: string;
   message: string;
+  include_location: boolean;
   created_at: string;
 }
 
