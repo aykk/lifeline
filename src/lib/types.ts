@@ -17,4 +17,6 @@ export interface CallLog {
   message: string;
   success: boolean;
   created_at: string;
+  call_id?: string | null;
+  summary?: string | null;
 }

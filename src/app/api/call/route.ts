@@ -47,6 +47,7 @@ export async function POST(req: NextRequest) {
         phone_number,
         message: message ?? "",
         success,
+        call_id: data.call_id ?? null,
       });
     } catch {}
   }
