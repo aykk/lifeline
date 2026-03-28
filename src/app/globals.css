@@ -49,12 +49,19 @@
 }
 
 :root {
+  /* Lifeline brand surfaces + accent (used across marketing + app) */
+  --lifeline-canvas: #fafaf8;
+  --lifeline-band: #ebebe8;
+  --lifeline-accent: #0f6b63;
+  --lifeline-accent-soft: rgba(15, 107, 99, 0.1);
+  --lifeline-ink: #141414;
+
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.28 0.045 195);
+  --primary-foreground: oklch(0.99 0.01 195);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
@@ -127,4 +134,91 @@
   html {
     @apply font-sans;
   }
+}
+
+/* Landing: hairline section rule (visually thinner than 0.5px borders) */
+.section-hairline-b {
+  position: relative;
+}
+.section-hairline-b::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: color-mix(in srgb, var(--lifeline-ink) 88%, transparent);
+  transform: scaleY(0.18);
+  transform-origin: bottom center;
+  pointer-events: none;
+}
+
+/* Marketing hero: soft depth without clutter */
+.lifeline-hero-field {
+  background-color: var(--lifeline-canvas);
+  background-image:
+    radial-gradient(ellipse 95% 70% at 50% 100%, var(--lifeline-accent-soft), transparent 58%),
+    radial-gradient(ellipse 55% 50% at 0% 0%, rgba(0, 0, 0, 0.028), transparent 55%),
+    radial-gradient(ellipse 50% 45% at 100% 15%, rgba(15, 107, 99, 0.05), transparent 50%);
+}
+
+/* Eyebrow with accent pulse (hero, key CTAs) */
+.lifeline-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: oklch(0.45 0.02 200);
+}
+.lifeline-kicker::before {
+  content: "";
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 9999px;
+  background: var(--lifeline-accent);
+  box-shadow: 0 0 0 3px var(--lifeline-accent-soft);
+  flex-shrink: 0;
+}
+
+/* Section labels (landing + app headers) */
+.lifeline-section-label {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--lifeline-accent) 55%, var(--lifeline-ink));
+}
+
+/* App main column: lift off sidebar */
+.app-main-panel {
+  flex: 1;
+  min-width: 0;
+  min-height: 100vh;
+  background: #fff;
+  box-shadow: inset 1px 0 0 rgba(0, 0, 0, 0.05);
+}
+
+/* Auth / empty backgrounds */
+.lifeline-auth-canvas {
+  min-height: 100vh;
+  background-color: var(--lifeline-canvas);
+  background-image:
+    radial-gradient(ellipse 80% 60% at 50% 0%, var(--lifeline-accent-soft), transparent 55%),
+    radial-gradient(ellipse 60% 50% at 100% 100%, rgba(0, 0, 0, 0.03), transparent 50%);
+}
+
+/* Subtle grain texture overlay on the whole page */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 128px 128px;
 }

@@ -8,9 +8,9 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   if (!user) redirect("/login");
 
   return (
-    <div className="min-h-screen bg-white flex">
+    <div className="min-h-screen flex bg-[var(--lifeline-canvas)] text-zinc-900">
       <Sidebar user={user} />
-      <main className="flex-1 min-w-0">{children}</main>
+      <main className="app-main-panel">{children}</main>
     </div>
   );
 }

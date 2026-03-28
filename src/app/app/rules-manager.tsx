@@ -4,6 +4,7 @@ import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Zap, MapPin } from "lucide-react";
 import type { TriggerRule } from "@/lib/types";
 
 interface Props {
@@ -82,8 +83,8 @@ export default function RulesManager({ initialRules, userId }: Props) {
 
       {/* Form */}
       {showForm && (
-        <div className="rounded-xl border border-zinc-200 bg-zinc-50 p-5 flex flex-col gap-4">
-          <p className="text-sm font-medium text-zinc-900">{editId ? "Edit trigger" : "New trigger"}</p>
+        <div className="rounded-2xl border border-zinc-900/[0.08] bg-[var(--lifeline-canvas)]/80 p-6 flex flex-col gap-4 shadow-sm shadow-zinc-900/[0.03]">
+          <p className="text-sm font-semibold text-zinc-900">{editId ? "Edit trigger" : "New trigger"}</p>
           <div className="grid grid-cols-2 gap-3">
             <div className="flex flex-col gap-1.5">
               <label className="text-xs text-zinc-400 font-medium">Label</label>
@@ -113,7 +114,7 @@ export default function RulesManager({ initialRules, userId }: Props) {
                   type="checkbox"
                   checked={form.include_location ?? false}
                   onChange={(e) => setForm((f) => ({ ...f, include_location: e.target.checked }))}
-                  className="w-4 h-4 rounded border-zinc-300 accent-zinc-900 cursor-pointer"
+                  className="w-4 h-4 rounded border-zinc-300 cursor-pointer accent-[var(--lifeline-accent)]"
                 />
                 <span className="text-sm text-zinc-700">Append my location to the message</span>
               </label>
@@ -134,30 +135,40 @@ export default function RulesManager({ initialRules, userId }: Props) {
 
       {/* Rules list */}
       {rules.length === 0 && !showForm ? (
-        <div className="rounded-xl border border-dashed border-zinc-200 px-6 py-12 flex flex-col items-center gap-3 text-center">
-          <span className="text-2xl">⚡</span>
-          <p className="text-sm font-medium text-zinc-700">No triggers yet</p>
-          <p className="text-xs text-zinc-400 max-w-xs">Create a trigger to map a spoken phrase to a phone call. When heard, the AI agent fires automatically.</p>
-          <Button onClick={() => setShowForm(true)} className="h-8 text-xs px-4 mt-1">Add your first trigger</Button>
+        <div className="rounded-2xl border border-dashed border-zinc-900/10 bg-[var(--lifeline-canvas)]/50 px-6 py-14 flex flex-col items-center gap-3 text-center">
+          <div className="flex size-11 items-center justify-center rounded-2xl bg-white shadow-sm ring-1 ring-zinc-900/[0.06]">
+            <Zap className="size-5 text-[var(--lifeline-accent)] opacity-80" />
+          </div>
+          <p className="text-sm font-medium text-zinc-800">No triggers yet</p>
+          <p className="text-xs text-zinc-500 max-w-xs leading-relaxed">
+            Create a trigger to map a spoken phrase to a phone call. When heard, the AI agent fires automatically.
+          </p>
+          <Button onClick={() => setShowForm(true)} className="h-9 text-xs px-5 mt-1 rounded-full">
+            Add your first trigger
+          </Button>
         </div>
       ) : (
         <>
           {!showForm && (
             <div className="flex justify-end">
-              <Button onClick={() => setShowForm(true)} className="h-8 text-xs px-4">+ New trigger</Button>
+              <Button onClick={() => setShowForm(true)} className="h-9 text-xs px-4 rounded-full">
+                + New trigger
+              </Button>
             </div>
           )}
           <div className="flex flex-col gap-2">
             {rules.map((rule) => (
-              <div key={rule.id} className="group rounded-xl border border-zinc-100 bg-white px-5 py-4 flex items-start justify-between gap-4 hover:border-zinc-200 transition-colors">
+              <div key={rule.id} className="group rounded-2xl border border-zinc-900/[0.08] bg-white px-5 py-4 flex items-start justify-between gap-4 shadow-sm shadow-zinc-900/[0.02] hover:shadow-md hover:border-zinc-900/12 transition-all duration-200">
                 <div className="flex flex-col gap-1.5 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
                     <span className="text-sm font-medium text-zinc-900">{rule.name}</span>
-                    <span className="text-xs font-mono bg-zinc-100 text-zinc-600 px-2 py-0.5 rounded-md">
+                    <span className="text-xs font-mono bg-[var(--lifeline-accent-soft)] text-[var(--lifeline-accent)] px-2 py-0.5 rounded-md">
                       &ldquo;{rule.trigger_phrase}&rdquo;
                     </span>
                     {rule.include_location && (
-                      <span className="text-xs bg-zinc-100 text-zinc-500 px-2 py-0.5 rounded-md">📍 location</span>
+                      <span className="inline-flex items-center gap-1 text-xs bg-zinc-100 text-zinc-500 px-2 py-0.5 rounded-md">
+                        <MapPin className="size-3" /> location
+                      </span>
                     )}
                   </div>
                   <p className="text-xs text-zinc-500">Calls <span className="font-medium text-zinc-700">{rule.phone_number}</span></p>

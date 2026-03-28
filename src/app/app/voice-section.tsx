@@ -90,7 +90,7 @@ export default function VoiceSection({ phone, trigger, onTriggerChange, onCall, 
             disabled={disabled}
             className="h-11 w-full rounded-lg border border-zinc-200 bg-white px-3 text-sm text-zinc-900 placeholder:text-zinc-400 outline-none focus:border-zinc-400 disabled:opacity-50 transition-colors"
           />
-          <p className="text-xs text-zinc-400">Microphone not available — use the button below.</p>
+          <p className="text-xs text-zinc-400">Microphone not available, use the button below.</p>
         </div>
         <div className="flex items-center gap-3">
           <div className="flex-1 h-px bg-zinc-100" />

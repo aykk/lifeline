@@ -44,17 +44,23 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white flex flex-col items-center justify-center px-6">
+    <div className="lifeline-auth-canvas flex flex-col items-center justify-center px-6 py-16">
       <div className="w-full max-w-sm flex flex-col gap-8">
-        <div className="flex flex-col gap-2">
-          <Link href="/" className="text-sm font-semibold tracking-tight text-zinc-900">lifeline</Link>
+        <div className="flex flex-col gap-3">
+          <Link
+            href="/"
+            className="text-sm font-semibold tracking-tight text-zinc-900 hover:opacity-75 transition-opacity w-fit"
+          >
+            lifeline.
+          </Link>
+          <p className="lifeline-section-label">Account</p>
           <h1 className="text-2xl font-semibold tracking-tight text-zinc-900">Sign in</h1>
-          <p className="text-sm text-zinc-500">Continue to your dashboard.</p>
+          <p className="text-sm text-zinc-500 leading-relaxed">Continue to your dashboard.</p>
         </div>
 
         {sent ? (
           <div className="flex flex-col gap-3">
-            <div className="border border-zinc-100 rounded-xl px-5 py-4">
+            <div className="border border-zinc-900/[0.08] rounded-2xl bg-white px-5 py-4 shadow-sm shadow-zinc-900/[0.04]">
               <p className="text-sm text-zinc-700 font-medium">Check your email</p>
               <p className="text-sm text-zinc-500 mt-1">We sent a link to <span className="text-zinc-900">{email}</span>. Click it to sign in.</p>
             </div>
@@ -66,13 +72,13 @@ export default function LoginPage() {
             </button>
           </div>
         ) : (
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 rounded-2xl border border-zinc-900/[0.08] bg-white p-6 shadow-lg shadow-zinc-900/[0.04]">
             {/* Google */}
             <Button
               onClick={handleGoogle}
               disabled={googleLoading}
               variant="outline"
-              className="h-11 w-full gap-3 text-sm"
+              className="h-11 w-full gap-3 text-sm rounded-xl border-zinc-200"
             >
               <svg className="size-4 shrink-0" viewBox="0 0 24 24">
                 <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
@@ -84,9 +90,9 @@ export default function LoginPage() {
             </Button>
 
             <div className="flex items-center gap-3">
-              <div className="flex-1 h-px bg-zinc-100" />
-              <span className="text-xs text-zinc-400">or</span>
-              <div className="flex-1 h-px bg-zinc-100" />
+              <div className="flex-1 h-px bg-zinc-900/10" />
+              <span className="text-xs text-zinc-400 font-medium">or</span>
+              <div className="flex-1 h-px bg-zinc-900/10" />
             </div>
 
             {/* Magic link */}
@@ -96,11 +102,16 @@ export default function LoginPage() {
                 placeholder="you@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="h-11 text-sm"
+                className="h-11 text-sm rounded-xl"
                 autoFocus
               />
               {error && <p className="text-xs text-red-500">{error}</p>}
-              <Button type="submit" disabled={loading || !email.trim()} variant="outline" className="h-11 text-sm">
+              <Button
+                type="submit"
+                disabled={loading || !email.trim()}
+                variant="outline"
+                className="h-11 text-sm rounded-xl"
+              >
                 {loading ? "Sending..." : "Send magic link"}
               </Button>
             </form>
@@ -108,10 +119,7 @@ export default function LoginPage() {
         )}
 
         <p className="text-xs text-zinc-400 text-center">
-          Just want to try it?{" "}
-          <Link href="/demo" className="text-zinc-600 hover:text-zinc-900 transition-colors">
-            Use the demo
-          </Link>
+          By signing in you agree to our terms of service.
         </p>
       </div>
     </div>

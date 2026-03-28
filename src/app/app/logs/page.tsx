@@ -1,4 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
+import { AppPageHeader } from "@/components/app-page-header";
+import { ClipboardList } from "lucide-react";
 import type { CallLog } from "@/lib/types";
 
 export default async function LogsPage() {
@@ -11,32 +13,37 @@ export default async function LogsPage() {
   const entries = (logs ?? []) as CallLog[];
 
   return (
-    <div className="px-8 py-8 max-w-2xl">
-      <div className="mb-8">
-        <h1 className="text-xl font-semibold tracking-tight text-zinc-900">Logs</h1>
-        <p className="text-sm text-zinc-400 mt-1">Every call dispatched from your account.</p>
-      </div>
+    <div className="px-8 py-10 max-w-2xl">
+      <AppPageHeader
+        label="History"
+        title="Logs"
+        description="Every call dispatched from your account, with status and timestamps."
+      />
 
       {entries.length === 0 ? (
-        <div className="rounded-xl border border-dashed border-zinc-200 px-6 py-12 flex flex-col items-center gap-3 text-center">
-          <span className="text-2xl">📋</span>
-          <p className="text-sm font-medium text-zinc-700">No calls yet</p>
-          <p className="text-xs text-zinc-400">Calls will appear here once triggered from the Listen page.</p>
+        <div className="rounded-2xl border border-dashed border-zinc-900/10 bg-[var(--lifeline-canvas)]/50 px-6 py-14 flex flex-col items-center gap-3 text-center">
+          <div className="flex size-11 items-center justify-center rounded-2xl bg-white shadow-sm ring-1 ring-zinc-900/[0.06]">
+            <ClipboardList className="size-5 text-[var(--lifeline-accent)] opacity-70" />
+          </div>
+          <p className="text-sm font-medium text-zinc-800">No calls yet</p>
+          <p className="text-xs text-zinc-500 max-w-xs leading-relaxed">
+            Calls will appear here once triggered from the Listen page.
+          </p>
         </div>
       ) : (
-        <div className="rounded-xl border border-zinc-100 overflow-hidden">
+        <div className="rounded-2xl border border-zinc-900/[0.08] bg-white shadow-sm shadow-zinc-900/[0.03] overflow-hidden">
           {entries.map((log, i) => {
             const date = new Date(log.created_at);
             return (
               <div
                 key={log.id}
                 className={`px-5 py-4 flex items-start justify-between gap-6 ${
-                  i !== entries.length - 1 ? "border-b border-zinc-100" : ""
+                  i !== entries.length - 1 ? "border-b border-zinc-900/[0.06]" : ""
                 }`}
               >
                 <div className="flex flex-col gap-1.5 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className="text-xs font-mono bg-zinc-100 text-zinc-700 px-2 py-0.5 rounded-md">
+                    <span className="text-xs font-mono bg-[var(--lifeline-accent-soft)] text-[var(--lifeline-accent)] px-2 py-0.5 rounded-md">
                       &ldquo;{log.trigger_phrase}&rdquo;
                     </span>
                     <span className="text-xs text-zinc-300">→</span>

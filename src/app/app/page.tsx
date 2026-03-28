@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { AppPageHeader } from "@/components/app-page-header";
 import RulesManagerClient from "./rules-manager-client";
 import type { TriggerRule } from "@/lib/types";
 
@@ -11,13 +12,12 @@ export default async function AppPage() {
     .order("created_at", { ascending: false });
 
   return (
-    <div className="px-8 py-8 max-w-2xl">
-      <div className="mb-8">
-        <h1 className="text-xl font-semibold tracking-tight text-zinc-900">Triggers</h1>
-        <p className="text-sm text-zinc-400 mt-1">
-          Each trigger maps a spoken phrase to a phone call. When heard on the Listen page, the AI fires automatically.
-        </p>
-      </div>
+    <div className="px-8 py-10 max-w-2xl">
+      <AppPageHeader
+        label="Configure"
+        title="Triggers"
+        description="Each trigger maps a spoken phrase to a phone call. When heard on the Listen page, the AI fires automatically."
+      />
       <RulesManagerClient
         initialRules={(rules ?? []) as TriggerRule[]}
         userId={user!.id}
