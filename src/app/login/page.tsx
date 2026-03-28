@@ -51,7 +51,7 @@ export default function LoginPage() {
     const supabase = createClient();
     const { error: err } = await supabase.auth.signInWithOtp({
       email,
-      options: { emailRedirectTo: `${location.origin}/auth/callback` },
+      options: { emailRedirectTo: `${window.location.origin}/auth/callback` },
     });
 
     if (err) {
@@ -93,6 +93,12 @@ export default function LoginPage() {
           </div>
         ) : (
           <div className="flex flex-col gap-4 rounded-2xl border border-zinc-900/[0.08] bg-white p-6 shadow-lg shadow-zinc-900/[0.04]">
+            {error && (
+              <div className="rounded-xl border border-red-100 bg-red-50/90 px-3 py-2.5 text-xs text-red-800 leading-relaxed">
+                {error}
+              </div>
+            )}
+
             {/* Google */}
             <Button
               onClick={handleGoogle}
@@ -125,7 +131,6 @@ export default function LoginPage() {
                 className="h-11 text-sm rounded-xl"
                 autoFocus
               />
-              {error && <p className="text-xs text-red-500">{error}</p>}
               <Button
                 type="submit"
                 disabled={loading || !email.trim()}

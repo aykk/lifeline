@@ -7,6 +7,12 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // OAuth return: must not run session refresh here — getUser/setAll can overwrite
+  // cookies and drop the PKCE code-verifier before /auth/callback exchanges the code.
+  if (request.nextUrl.pathname.startsWith("/auth/callback")) {
+    return NextResponse.next();
+  }
+
   return await updateSession(request);
 }
 
